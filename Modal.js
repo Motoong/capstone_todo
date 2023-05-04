@@ -3,36 +3,61 @@ import { View, Modal, Text, Button, StyleSheet, TextInput, Keyboard } from 'reac
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faClock,faBell,faMapLocation,faLocation,faTag,faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 
-
 const CustomModal = ({ modalVisible, toggleModal }) => {
+  const [inputValuesArray, setInputValuesArray] = useState([]);
+
+  const [inputValues, setInputValues] = useState({ task: "", hour: "", minute: "", alarm: "", place: "", tag: "", importance: ""});
+
+  const handleSave = () => {
+    const newInputValuesArray = [...inputValuesArray, inputValues];
+    setInputValuesArray(newInputValuesArray);
+    setInputValues({ task: "", hour: "", minute: "", alarm: "", place: "", tag: "", importance: ""});
+    console.log(newInputValuesArray);
+    toggleModal();
+  };
 
   return (
     <Modal visible={modalVisible} animationType="fade" transparent={true}>
       <View style={styles.modalContainer}>
         <View style={styles.modal}>
+
           <View style={styles.cotain1}>
             <TextInput
-            placeholder="할일을 입력하세요"
-            style={styles.textinput}
-          />
+              placeholder="할일을 입력하세요"
+              style={styles.textinput}
+              onChangeText={(text) =>
+                setInputValues({ ...inputValues, task: text })
+              }
+              value={inputValues.task}
+            />
           </View>
+
           <View style={styles.cotain1}>
             <FontAwesomeIcon
-                icon={faClock}
-                size={25}
-                style={{ color:"#9A9A9A" }}
-                marginRight="50px"
-              />
-            <Text style={styles.modaltext}>시간</Text>
-            <TextInput 
-              placeholder="00"
-              style={styles.textinput2}
+              icon={faClock}
+              size={25}
+              style={{ color: "#9A9A9A" }}
+              marginRight="50px"
             />
-            <TextInput 
+            <Text style={styles.modaltext}>시간</Text>
+            <TextInput
               placeholder="00"
               style={styles.textinput2}
+              onChangeText={(text) =>
+                setInputValues({ ...inputValues, hour: text })
+              }
+              value={inputValues.hour}
+            />
+            <TextInput
+              placeholder="00"
+              style={styles.textinput2}
+              onChangeText={(text) =>
+                setInputValues({ ...inputValues, minute: text })
+              }
+              value={inputValues.minute}
             />
           </View>
+
           <View style={styles.cotain1}>
             <FontAwesomeIcon
                   icon={faBell}
@@ -44,9 +69,14 @@ const CustomModal = ({ modalVisible, toggleModal }) => {
             <TextInput 
               placeholder="00"
               style={styles.textinput2}
+              onChangeText={(text) =>
+                setInputValues({ ...inputValues, alarm: text })
+              }
+              value={inputValues.alarm}
             />
             <Text style={styles.modaltext}>분전</Text>
           </View>
+
           <View style={styles.cotain1}>
             <FontAwesomeIcon
                   icon={faClock}
@@ -58,6 +88,10 @@ const CustomModal = ({ modalVisible, toggleModal }) => {
             <TextInput 
               placeholder="장소를 검색하세요"
               style={styles.textinput2}
+              onChangeText={(text) =>
+                setInputValues({ ...inputValues, place: text })
+              }
+              value={inputValues.place}
             />
           </View>
           <View style={styles.cotain1}>
@@ -71,6 +105,10 @@ const CustomModal = ({ modalVisible, toggleModal }) => {
             <TextInput 
               placeholder="00"
               style={styles.textinput2}
+              onChangeText={(text) =>
+                setInputValues({ ...inputValues, tag: text })
+              }
+              value={inputValues.tag}
             />
           </View>
           <View style={styles.cotain1}>
@@ -84,18 +122,26 @@ const CustomModal = ({ modalVisible, toggleModal }) => {
             <TextInput 
               placeholder="00"
               style={styles.textinput2}
+              onChangeText={(text) =>
+                setInputValues({ ...inputValues, importance: text })
+              }
+              value={inputValues.importance}
             />
           </View>
+
           <View style={styles.cotain1}>
-            <Button title="저장" onPress={toggleModal} />
+            <Button title="저장" onPress={handleSave} />
             <Button title="취소" onPress={toggleModal} />
           </View>
-          
+
         </View>
       </View>
     </Modal>
   );
 };
+
+
+
 
 const styles = StyleSheet.create({
   modalContainer: {
